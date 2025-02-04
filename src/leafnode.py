@@ -17,11 +17,8 @@ class LeafNode(HTMLNode):
         if self.tag is None:
             return self.value
 
-        html = f"{html} {tag}"
-
-        if self.props is not None:
-            for prop in self.props:
-                html = f"{html} {prop[0]}={prop[1]}"
-        html = f"{html}> {self.value} </{tag}>"
+        html = f"{html}{self.tag}"
+        phtml = self.props_to_html()
+        html = f"{html}{phtml}>{self.value}</{self.tag}>"
         return html
 

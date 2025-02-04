@@ -14,8 +14,8 @@ class HTMLNode:
         if self.props is None:
             return ""
         else:
-            for prop in self.props:
-                html = f"{html} {prop[0]}={prop[1]}"
+            for prop,value in self.props.items():
+                html = f'{html} {prop}="{value}"'
             return html
 
 

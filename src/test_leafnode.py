@@ -13,9 +13,10 @@ class TestLeafNode(unittest.TestCase):
         self.assertRaises(ValueError,node.to_html)
 
     def test_leaf(self):
-        node = LeafNode("p","This is paragraph of text.", {"label": "I am a leaf"})
-        expected = f'<p label="I am a leaf">This is paragraph of text.</p>'
-        self.assertEqual(expected,node.to_html())
+        node = LeafNode("p","This is paragraph of text.", {"label": "I am a leaf", "color":"red"})
+        expected = f'<p label="I am a leaf" color="red">This is paragraph of text.</p>'
+        html = node.to_html()
+        self.assertEqual(expected,html)
 
 
 
