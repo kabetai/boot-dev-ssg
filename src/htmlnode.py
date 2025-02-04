@@ -1,4 +1,4 @@
-def class HTMLNode:
+class HTMLNode:
 
     def __init__(self,tag=None, value=None, children=None, props=None):
         self.tag = tag
@@ -7,20 +7,20 @@ def class HTMLNode:
         self.props = props
 
     def to_html(self):
-        html = ""
-        if value:
-            html = html+value
-        else:
-            for child in children:
-                html = html + props_to_html(child)
-
         raise NotImplementedError
 
     def props_to_html(self):
         html=""
-        for prop in self.props:
-            html = f"{html} {prop[0]}={prop[1]}"
-            print(f"{html} {prop[0]}={prop[1]}")
-        return html
+        if self.props is None:
+            return ""
+        else:
+            for prop in self.props:
+                html = f"{html} {prop[0]}={prop[1]}"
+            return html
+
+
+    def __repr__(self):
+        return "HTML Node - tag: {self.tag}, properties: {self.properties}, children: {self.properties}, value: {self.value}"
+        
 
 
