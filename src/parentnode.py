@@ -1,5 +1,3 @@
-import unittest
-
 from htmlnode import HTMLNode
 
 class ParentNode(HTMLNode):
@@ -11,16 +9,20 @@ class ParentNode(HTMLNode):
 
     def to_html(self):
         html = "<"
+
         if self.tag is None:
             raise ValueError("There cannot be ParentNode with no tag")
-        if self.props is None:
+
+        if self.children is None:
             raise ValueError("ParentNode has to have children")
 
         html = f"{html}{self.tag}"
 
         if self.props is not None:
             phtml = self.props_to_html()
-            html = f"{html}{phtml}>" 
+            html = f"{html}{phtml}" 
+
+        html = f"{html}>"
 
         for child in self.children:
             chtml = child.to_html()
