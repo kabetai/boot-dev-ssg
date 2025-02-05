@@ -22,3 +22,7 @@ class LeafNode(HTMLNode):
         html = f"{html}{phtml}>{self.value}</{self.tag}>"
         return html
 
+    def __eq__(self, node):
+        if isinstance(node,LeafNode):
+            return self.tag == node.tag and self.value == node.value and self.props == node.props
+        return False
