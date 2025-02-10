@@ -47,5 +47,28 @@ class TestTextNode(unittest.TestCase):
         expected = LeafNode("img","",{"src":"surprised_pikachu.jpg", "alt":"surprised pikachu"})
         self.assertEqual(actual,expected)
 
+    def test_split_one_text_node(self):
+        node = TextNode("This is text with a `code block` word", TextType.TEXT)
+        new_nodes = TextNode.split_nodes_with_delimiter([node], "`", TextType.CODE)
+        expected = [
+        TextNode("This is text with a ", TextType.TEXT),
+        TextNode("code block", TextType.CODE),
+        TextNode(" word", TextType.TEXT),
+        ]
+        self.assertEqual(new_nodes,expected)
+
+    def test_nothing_to_split(self):
+        node= TextNode("This text has nothing to split",TextType.TEXT)
+        expected = [TextNode("This text has nothing to split",TextType.TEXT)]
+        new_nodes = TextNode.split_nodes_with_delimiter([node],"**",TextType.BOLD)
+        self.assertEqual(new_nodes,expected)
+
+    def test_invalid_syntax(self):
+        node = TextNode("This text is not *valid Markdown",TextType.TEXT)
+        self.assertRaises(Exception, TextNode.split_nodes_with_delimiter, [node],"*",TextType.ITALIC)
+
+    def test_extract_image(self):
+
+
 if __name__ == "__main__":
     unittest.main()
