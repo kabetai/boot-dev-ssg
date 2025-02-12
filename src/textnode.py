@@ -87,7 +87,6 @@ class TextNode:
     def extract_markdown_links(text):
         regex = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
         matches = re.findall(regex,text)
-        print(f"images {matches}")
         return matches
 
 
@@ -100,11 +99,16 @@ class TextNode:
             images = TextNode.extract_markdown_images(node.text)
             for image in images:
                 alt_text = image[0]
+                print(f"alt text {alt_text}")
                 img_url = image[1]
+                print(f"url {img_url}")
                 sections = node.text.split(f"![{alt_text}]({img_url})",1)
-                new_nodes.append(TextNode(sections[0]))
-                new_nodes.append(TextNode(alt_text,img_url,TextType.IMAGE))
-                print(new_nodes)
-            print(new_nodes
+                print(f"sections {sections}")
+                textnode = TextNode(sections[0], TextType.TEXT)
+                print(f"text node {textnode}")
+                new_nodes.append(textnode)
+                imagenode = TextNode(alt_text,TextType.IMAGE,img_url)
+                print(f"image node {imagenode}")
+                new_nodes.append(imagenode)
 
         return new_nodes

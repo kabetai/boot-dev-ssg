@@ -90,9 +90,10 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(len(actual),0)
     
     def test_split_on_image(self):
-        text_node = TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif),TextType.TEXT)
+        text_node = TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif)",TextType.TEXT)
         images = TextNode.split_nodes_for_image([text_node]) 
-        self.assertEqual(images[1].text_type, TextType.IMAGE)
+        image = images[1]
+        self.assertEqual(image.text_type, TextType.IMAGE)
 
 
 if __name__ == "__main__":
