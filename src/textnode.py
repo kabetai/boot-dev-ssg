@@ -1,3 +1,4 @@
+import re
 from enum import Enum
 from leafnode import LeafNode
 
@@ -79,7 +80,31 @@ class TextNode:
         return unpacked
         
     def extract_markdown_images(text):
-        pass
+        regex = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)"
+        matches = re.findall(regex, text)
+        return matches
 
     def extract_markdown_links(text):
-        pass
+        regex = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
+        matches = re.findall(regex,text)
+        print(f"images {matches}")
+        return matches
+
+
+    def split_nodes_for_image(nodes):
+        new_nodes = []
+        if len(nodes)==0:
+            return nodes
+
+        for node in nodes:
+            images = TextNode.extract_markdown_images(node.text)
+            for image in images:
+                alt_text = image[0]
+                img_url = image[1]
+                sections = node.text.split(f"![{alt_text}]({img_url})",1)
+                new_nodes.append(TextNode(sections[0]))
+                new_nodes.append(TextNode(alt_text,img_url,TextType.IMAGE))
+                print(new_nodes)
+            print(new_nodes
+
+        return new_nodes
