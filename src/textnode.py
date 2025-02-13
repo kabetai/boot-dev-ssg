@@ -112,3 +112,21 @@ class TextNode:
                 new_nodes.append(imagenode)
 
         return new_nodes
+
+    def split_nodes_for_link(nodes):
+        new_nodes = []
+        if len(nodes) == 0:
+            return nodes
+        
+        for node in nodes:
+            links = TextNode.extract_markdown_links(node.text)
+            for link in links:
+                text = link[0]
+                url = link[1]
+                sections = node.text.split(f"[{text}]({url})",1)
+                textnode = TextNode(sections[0], TextType.TEXT)
+                new_nodes.append(textnode)
+                linknode = TextNode(text,TextType.LINK,url)
+                new_nodes.append(linknode)
+        return new_nodes
+
