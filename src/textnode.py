@@ -97,21 +97,25 @@ class TextNode:
 
         for node in nodes:
             images = TextNode.extract_markdown_images(node.text)
+            print(f" IMAGES {images}, {len(images)}")
+            text = node.text
             for image in images:
-                alt_text = image[0]
-                print(f"alt text {alt_text}")
-                img_url = image[1]
-                print(f"url {img_url}")
-                sections = node.text.split(f"![{alt_text}]({img_url})",1)
-                print(f"sections {sections}")
-                textnode = TextNode(sections[0], TextType.TEXT)
-                print(f"text node {textnode}")
-                new_nodes.append(textnode)
-                imagenode = TextNode(alt_text,TextType.IMAGE,img_url)
-                print(f"image node {imagenode}")
-                new_nodes.append(imagenode)
-
+                img_node = TextNode.process_img_src(image)
+                print(f"img_node alt text {img_node.text}, src {img_node.url}")
+                sections = text.split(f"![{image[0]}]({image[1]}), 1")
+                print(f"SECTIONS {sections}")
+                text_node = TextNode(sections[0], TextType.TEXT)
+                new_nodes.append(text_node)
+                new_nodes.append(img_node)
+                text = sections[1]
+                print(f"text after extraction {text}")
         return new_nodes
+
+    def process_img_src(image):
+        alt_text = image[0]
+        img_url = image[1]
+        print(f"image {alt_text} {img_url}")
+        return TextNode(alt_text,TextType.IMAGE,img_url)
 
     def split_nodes_for_link(nodes):
         new_nodes = []

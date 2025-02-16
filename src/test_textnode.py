@@ -92,9 +92,18 @@ class TestTextNode(unittest.TestCase):
     def test_split_on_image(self):
         text_node = TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif)",TextType.TEXT)
         images = TextNode.split_nodes_for_image([text_node]) 
+        print(f"texts split to {len(images)}")
         image = images[1]
         self.assertEqual(image.text_type, TextType.IMAGE)
 
+    def test_split_on_multiple_images(self):
+        images_node = TextNode("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and a jpeg ![A JPEG](https://i.imgur.com/abc.jpeg)",TextType.TEXT)
+        images = TextNode.split_nodes_for_image([images_node])
+        print(f"splits {len(images)}")
+        self.assertEqual(images[0].text, "This is text with a ")
+        self.assertEqual(images[1].text_type, TextType.IMAGE)
+        self.assertEqual(images[2].text, " and a jpeg ")
+        self.assertEqual(images[3].text_type, TextType.IMAGE)
 
 if __name__ == "__main__":
     unittest.main()
