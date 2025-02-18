@@ -97,18 +97,15 @@ class TextNode:
 
         for node in nodes:
             images = TextNode.extract_markdown_images(node.text)
-            print(f" IMAGES {images}, {len(images)}")
             text = node.text
             for image in images:
                 img_node = TextNode.process_img_src(image)
-                print(f"img_node alt text {img_node.text}, src {img_node.url}")
-                sections = text.split(f"![{image[0]}]({image[1]}), 1")
-                print(f"SECTIONS {sections}")
+                reg = f"!\[{img_node.text}\]\({img_node.url}\)"
+                sections = re.split(reg,text)
                 text_node = TextNode(sections[0], TextType.TEXT)
                 new_nodes.append(text_node)
                 new_nodes.append(img_node)
                 text = sections[1]
-                print(f"text after extraction {text}")
         return new_nodes
 
     def process_img_src(image):
@@ -124,13 +121,14 @@ class TextNode:
         
         for node in nodes:
             links = TextNode.extract_markdown_links(node.text)
+            text = node.text
             for link in links:
-                text = link[0]
-                url = link[1]
-                sections = node.text.split(f"[{text}]({url})",1)
-                textnode = TextNode(sections[0], TextType.TEXT)
-                new_nodes.append(textnode)
-                linknode = TextNode(text,TextType.LINK,url)
-                new_nodes.append(linknode)
+                link_node = TextNode(link[0],TextType.LINK,link[1])
+                reg = f"!\[{link_node.text}\]\({link_node.url}\)]"
+                sections = re.split(reg,text)
+                text_node = TextNode(sections[0], TextType.TEXT)
+                new_nodes.append(text_node)
+                new_nodes.append(link_node)
+                text = sections[1]
         return new_nodes
 
