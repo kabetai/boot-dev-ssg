@@ -58,6 +58,7 @@ class TextNode:
             return nodes
 
         for node in nodes:
+            print(f"node text {node.text}")
             if node.text_type == TextType.TEXT:
                 unpacked = TextNode.unpack_node(node,delimiter,text_type)
                 splitted_nodes.extend(unpacked)
@@ -66,7 +67,9 @@ class TextNode:
         return splitted_nodes
 
     def unpack_node(node, delimiter, text_type):
-        node_texts = node.text.split(delimiter)
+        to_split = node.text
+        print(f"to_split {to_split}")
+        node_texts = to_split.split(delimiter)
         if len(node_texts) == 1:
             ## nothing to split
             return [node]
@@ -96,6 +99,7 @@ class TextNode:
             return nodes
 
         for node in nodes:
+            print(f"node text {node.text}")
             images = TextNode.extract_markdown_images(node.text)
             text = node.text
             for image in images:
@@ -106,12 +110,13 @@ class TextNode:
                 new_nodes.append(text_node)
                 new_nodes.append(img_node)
                 text = sections[1]
+            rest = TextNode(text,TextType.TEXT)
+            new_nodes.append(rest)
         return new_nodes
 
     def process_img_src(image):
         alt_text = image[0]
         img_url = image[1]
-        print(f"image {alt_text} {img_url}")
         return TextNode(alt_text,TextType.IMAGE,img_url)
 
     def split_nodes_for_link(nodes):
@@ -120,15 +125,51 @@ class TextNode:
             return nodes
         
         for node in nodes:
+            print(f"node {node.text}")
             links = TextNode.extract_markdown_links(node.text)
             text = node.text
             for link in links:
-                link_node = TextNode(link[0],TextType.LINK,link[1])
-                reg = f"!\[{link_node.text}\]\({link_node.url}\)]"
+                link_node = TextNode(link[0],TextType.URL,link[1])
+                reg = f"\[{link_node.text}\]\({link_node.url}\)"
+                print(f"Regex {reg}")
                 sections = re.split(reg,text)
                 text_node = TextNode(sections[0], TextType.TEXT)
                 new_nodes.append(text_node)
                 new_nodes.append(link_node)
                 text = sections[1]
+            rest = TextNode(text,TextType.TEXT)
+            new_nodes.append(rest)
         return new_nodes
+
+    def text_to_textnodes(text):
+        nodes = []
+        node = TextNode(text,TextType.TEXT) 
+        bolds = TextNode.split_nodes_with_delimiter([node],"**",TextType.BOLD)
+        nodes.append(bolds[0])
+        nodes.append(bolds[1])
+        rest = bolds[2]
+        italics = TextNode.split_nodes_with_delimiter([rest],"*",TextType.ITALIC)
+        nodes.append(italics[0])
+        nodes.append(italics[1])
+        rest = italics[2]
+
+        codes = TextNode.split_nodes_with_delimiter([rest],"`",TextType.CODE)
+        nodes.append(codes[0])
+        nodes.append(codes[1])
+        rest = codes[2]
+
+        images = TextNode.split_nodes_for_image([rest])
+        nodes.append(images[0])
+        print(f"image 0 {images[0]}")
+        nodes.append(images[1])
+        print(f"image 1 {images[1]}")
+        print(f"images size {len(images)}")
+        rest = images[2]
+
+        links = TextNode.split_nodes_for_link([rest])
+        nodes.append(links[0])
+        nodes.append(links[1])
+        print(f"links 3: =={links[2]}==")
+        return nodes
+        
 
