@@ -58,7 +58,6 @@ class TextNode:
             return nodes
 
         for node in nodes:
-            print(f"node text {node.text}")
             if node.text_type == TextType.TEXT:
                 unpacked = TextNode.unpack_node(node,delimiter,text_type)
                 splitted_nodes.extend(unpacked)
@@ -68,7 +67,6 @@ class TextNode:
 
     def unpack_node(node, delimiter, text_type):
         to_split = node.text
-        print(f"to_split {to_split}")
         node_texts = to_split.split(delimiter)
         if len(node_texts) == 1:
             ## nothing to split
@@ -99,7 +97,6 @@ class TextNode:
             return nodes
 
         for node in nodes:
-            print(f"node text {node.text}")
             images = TextNode.extract_markdown_images(node.text)
             text = node.text
             for image in images:
@@ -125,13 +122,11 @@ class TextNode:
             return nodes
         
         for node in nodes:
-            print(f"node {node.text}")
             links = TextNode.extract_markdown_links(node.text)
             text = node.text
             for link in links:
                 link_node = TextNode(link[0],TextType.URL,link[1])
                 reg = f"\[{link_node.text}\]\({link_node.url}\)"
-                print(f"Regex {reg}")
                 sections = re.split(reg,text)
                 text_node = TextNode(sections[0], TextType.TEXT)
                 new_nodes.append(text_node)
@@ -160,16 +155,16 @@ class TextNode:
 
         images = TextNode.split_nodes_for_image([rest])
         nodes.append(images[0])
-        print(f"image 0 {images[0]}")
         nodes.append(images[1])
-        print(f"image 1 {images[1]}")
-        print(f"images size {len(images)}")
         rest = images[2]
 
         links = TextNode.split_nodes_for_link([rest])
         nodes.append(links[0])
         nodes.append(links[1])
-        print(f"links 3: =={links[2]}==")
         return nodes
         
-
+    def markdown_to_blocks(markdown):
+        blocks = re.split("\n\n",markdown)
+        trimmed = [line.strip() for line in blocks]
+        filtered_blocks = [line for line in trimmed if len(line) >0]
+        return filtered_blocks

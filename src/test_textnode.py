@@ -125,18 +125,29 @@ class TestTextNode(unittest.TestCase):
             TextNode(" and a ", TextType.TEXT),
             TextNode("link", TextType.URL, "https://boot.dev")
         ]
-#        expected = [
-#                    TextNode("This is ", TextType.TEXT),
-#                    TextNode("text", TextType.BOLD),
-#                    TextNode(" with an ", TextType.TEXT),
-#                    TextNode("italic", TextType.ITALIC),
-#                    TextNode(" word and a ", TextType.TEXT),
-#                    TextNode("code block", TextType.CODE),
-#                    TextNode(" and an ", TextType.TEXT),
-#                    TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
-        #           ]
+
         nodes = TextNode.text_to_textnodes(text)
         self.assertEqual(expected,nodes)
+
+    def test_markdown_to_blocks(self):
+        markdown = """ 
+        # This is a heading
+
+        This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+
+        * This is the first list item in a list block
+        * This is a list item
+        * This is another list item
+        """
+        blocks = TextNode.markdown_to_blocks(markdown)
+        self.assertEqual(len(blocks),3)
+        self.assertEqual(blocks[0],"# This is a heading")
+        self.assertEqual(blocks[1],
+        "This is a paragraph of text. It has some **bold** and *italic* words inside of it.")
+        self.assertEqual(blocks[2],"""* This is the first list item in a list block
+        * This is a list item
+        * This is another list item""")
 
 if __name__ == "__main__":
     unittest.main()
