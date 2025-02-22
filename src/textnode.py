@@ -138,29 +138,43 @@ class TextNode:
 
     def text_to_textnodes(text):
         nodes = []
-        node = TextNode(text,TextType.TEXT) 
-        bolds = TextNode.split_nodes_with_delimiter([node],"**",TextType.BOLD)
-        nodes.append(bolds[0])
-        nodes.append(bolds[1])
-        rest = bolds[2]
-        italics = TextNode.split_nodes_with_delimiter([rest],"*",TextType.ITALIC)
-        nodes.append(italics[0])
-        nodes.append(italics[1])
-        rest = italics[2]
+        if len(text) > 0: 
+            node = TextNode(text,TextType.TEXT) 
+            bolds = TextNode.split_nodes_with_delimiter([node],"**",TextType.BOLD)
+            if len(bolds) > 1:
+                nodes.append(bolds[0])
+                nodes.append(bolds[1])
+                rest = bolds[2]
+            else:
+                rest =  bolds
 
-        codes = TextNode.split_nodes_with_delimiter([rest],"`",TextType.CODE)
-        nodes.append(codes[0])
-        nodes.append(codes[1])
-        rest = codes[2]
+            italics = TextNode.split_nodes_with_delimiter([rest],"*",TextType.ITALIC)
+            if len(italics) > 0:
+                nodes.append(italics[0])
+                nodes.append(italics[1])
+                rest = italics[2]
+            else:
+                rest = italics
+            
+            codes = TextNode.split_nodes_with_delimiter([rest],"`",TextType.CODE)
+            if len(codes) > 1:
+                nodes.append(codes[0])
+                nodes.append(codes[1])
+                rest = codes[2]
+            else:
+                rest = codes
 
-        images = TextNode.split_nodes_for_image([rest])
-        nodes.append(images[0])
-        nodes.append(images[1])
-        rest = images[2]
+            images = TextNode.split_nodes_for_image([rest])
+            if len(images) > 1:
+                nodes.append(images[0])
+                nodes.append(images[1])
+                rest = images[2]
+            else:
+                rest = images
 
-        links = TextNode.split_nodes_for_link([rest])
-        nodes.append(links[0])
-        nodes.append(links[1])
+            links = TextNode.split_nodes_for_link([rest])
+            nodes.append(links[0])
+            nodes.append(links[1])
         return nodes
         
     def markdown_to_blocks(markdown):
