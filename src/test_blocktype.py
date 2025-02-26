@@ -2,7 +2,7 @@ import re
 import unittest
 
 from textnode import TextNode, TextType
-from block_type import BlockType
+from blocktype import BlockType
 from leafnode import LeafNode
 
 class TestBlockType(unittest.TestCase):
@@ -37,7 +37,17 @@ class TestBlockType(unittest.TestCase):
         result = BlockType.block_to_blocktype(h6_block)
         self.assertEqual(result, BlockType.HEADING)
 
-    #def test_header2(self):
+    def test_code_block(self):
+        code_block = "```:sp %:h/```"
+        result = BlockType.block_to_blocktype(code_block)
+        self.assertEqual(result, BlockType.CODE)
+
+    def test_multiline_code_block(self):
+        multiline='''```<div class="color=blue">
+        <a href="https://acme.com">asme</a>
+        </div>```'''
+        result = BlockType.block_to_blocktype(multiline)
+        self.assertEqual(result, BlockType.CODE)
 
 
 if __name__=="__main__":
