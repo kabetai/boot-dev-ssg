@@ -15,7 +15,7 @@ class BlockType(Enum):
         # this is pattern for one line code, not multiline
         code_pattern = "^[`]{3}.+[`]{3}$"
         multiline_code = "^```[\s\S]*```$"
-        quote_pattern = ""
+        quote_pattern = "$< .*"
         unordered_list_pattern = ""
         ordered_list_pattern=""
 

@@ -1,4 +1,4 @@
- mport re
+import re
 import unittest
 
 from textnode import TextNode, TextType
@@ -48,7 +48,11 @@ class TestBlockType(unittest.TestCase):
         </div>```'''
         result = BlockType.block_to_blocktype(multiline)
         self.assertEqual(result, BlockType.CODE)
-
+    
+    def test_quote(self):
+        quote = "< this is a quote"
+        result = BlockType.block_to_blocktype(quote)
+        self.assertEqual(result, BlockType.QUOTE)
 
 if __name__=="__main__":
     unittest.main()
