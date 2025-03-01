@@ -54,5 +54,12 @@ class TestBlockType(unittest.TestCase):
         result = BlockType.block_to_blocktype(quote)
         self.assertEqual(result, BlockType.QUOTE)
 
+    def test_multiline_quote(self):
+        multiline = """< first line
+        < second line
+        < third line """
+        result = BlockType.block_to_blocktype(multiline)
+        self.assertEqual(result, BlockType.QUOTE)
+
 if __name__=="__main__":
     unittest.main()

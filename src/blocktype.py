@@ -15,7 +15,8 @@ class BlockType(Enum):
         # this is pattern for one line code, not multiline
         code_pattern = "^[`]{3}.+[`]{3}$"
         multiline_code = "^```[\s\S]*```$"
-        quote_pattern = "$< .*"
+        quote_pattern = "< .*"
+        multiline_quote = "< [\s\S]*"
         unordered_list_pattern = ""
         ordered_list_pattern=""
 
@@ -24,13 +25,15 @@ class BlockType(Enum):
         if re.fullmatch(heading_pattern,block):
             return BlockType.HEADING
         if re.fullmatch(code_pattern,block):
-           return BlockType.CODE
+            return BlockType.CODE
         if re.fullmatch(multiline_code,block):
             return BlockType.CODE
         if re.fullmatch(quote_pattern,block):
-           return BlockType.QUOTE
+            return BlockType.QUOTE
+        if re.fullmatch(multiline_quote, block):
+            return BlockType.QUOTE
         if re.fullmatch(unordered_list_pattern,block):
-           return BlockType.UNORDERED_LIST
+            return BlockType.UNORDERED_LIST
         if re.fullmatch(ordered_list_pattern,block):
             return BlockType.ORDERED_LIST
 
