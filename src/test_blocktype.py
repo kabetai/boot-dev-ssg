@@ -56,10 +56,19 @@ class TestBlockType(unittest.TestCase):
 
     def test_multiline_quote(self):
         multiline = """< first line
+        <
         < second line
         < third line """
         result = BlockType.block_to_blocktype(multiline)
         self.assertEqual(result, BlockType.QUOTE)
+
+    def test_multiline_unordered_list(self):
+        unordered_list = """* Item 1
+        * Item 2
+        * Item 3
+        * Item 4"""
+        result = BlockType.block_to_blocktype(unordered_list)
+        self.assertEqual(result, BlockType.UNORDERED_LIST)
 
 if __name__=="__main__":
     unittest.main()

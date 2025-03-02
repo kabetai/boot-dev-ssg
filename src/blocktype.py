@@ -9,15 +9,11 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered list"
     ORDERED_LIST = "ordered list"
 
-    #@classsmethod
     def block_to_blocktype(block):
         heading_pattern = "^(#){1,6} [\w| ]+"
-        # this is pattern for one line code, not multiline
-        code_pattern = "^[`]{3}.+[`]{3}$"
-        multiline_code = "^```[\s\S]*```$"
-        quote_pattern = "< .*"
-        multiline_quote = "< [\s\S]*"
-        unordered_list_pattern = ""
+        code_pattern = "^```[\s\S]*```$"
+        quote_pattern = "< [\s\S]*"
+        unordered_list_pattern = "^[-*+] [\s\S]*"
         ordered_list_pattern=""
 
         if len(block) == 0:
@@ -26,11 +22,7 @@ class BlockType(Enum):
             return BlockType.HEADING
         if re.fullmatch(code_pattern,block):
             return BlockType.CODE
-        if re.fullmatch(multiline_code,block):
-            return BlockType.CODE
-        if re.fullmatch(quote_pattern,block):
-            return BlockType.QUOTE
-        if re.fullmatch(multiline_quote, block):
+        if re.fullmatch(quote_pattern, block):
             return BlockType.QUOTE
         if re.fullmatch(unordered_list_pattern,block):
             return BlockType.UNORDERED_LIST
