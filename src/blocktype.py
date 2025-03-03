@@ -14,7 +14,7 @@ class BlockType(Enum):
         code_pattern = "^```[\s\S]*```$"
         quote_pattern = "< [\s\S]*"
         unordered_list_pattern = "^[-*+] [\s\S]*"
-        ordered_list_pattern=""
+        ordered_list_pattern="^[0-9]+\. [\s\S]*"
 
         if len(block) == 0:
             raise ValueError("Can't convert from empty text")

@@ -70,5 +70,14 @@ class TestBlockType(unittest.TestCase):
         result = BlockType.block_to_blocktype(unordered_list)
         self.assertEqual(result, BlockType.UNORDERED_LIST)
 
+    def test_multiline_ordered_list(self):
+        ordered_list = """1. Item I
+        2. Item II
+        3. Item III
+        4. Item IV"""
+        result = BlockType.block_to_blocktype(ordered_list)
+        self.assertEqual(result, BlockType.ORDERED_LIST)
+
+
 if __name__=="__main__":
     unittest.main()
