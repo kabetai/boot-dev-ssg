@@ -78,6 +78,15 @@ class TestBlockType(unittest.TestCase):
         result = BlockType.block_to_blocktype(ordered_list)
         self.assertEqual(result, BlockType.ORDERED_LIST)
 
+    def test_paragrapgh(self):
+        paragraph = "This is just text with no special meaning or formatting."
+        result = BlockType.block_to_blocktype(paragraph)
+        self.assertEqual(result, BlockType.PARAGRAPH)
+
+    def test_for_empty(self):
+        empty= ""
+        with self.assertRaises(ValueError):
+            BlockType.block_to_blocktype(empty)
 
 if __name__=="__main__":
     unittest.main()
