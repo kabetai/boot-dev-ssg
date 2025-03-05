@@ -67,16 +67,28 @@ class TestBlockType(unittest.TestCase):
         * Item 2
         * Item 3
         * Item 4"""
-        result = BlockType.block_to_blocktype(unordered_list)
-        self.assertEqual(result, BlockType.UNORDERED_LIST)
+        elements = unordered_list.split('\n')
+        trimmed = [el.strip() for el in elements]
+        blocks = [BlockType.block_to_blocktype(block) for block in trimmed]
+        self.assertEqual(4,len(blocks))
+        self.assertEqual(blocks[0], BlockType.UNORDERED_LIST)
+        self.assertEqual(blocks[1], BlockType.UNORDERED_LIST)
+        self.assertEqual(blocks[2], BlockType.UNORDERED_LIST)
+        self.assertEqual(blocks[3], BlockType.UNORDERED_LIST)
 
     def test_multiline_ordered_list(self):
         ordered_list = """1. Item I
-        2. Item II
-        3. Item III
-        4. Item IV"""
-        result = BlockType.block_to_blocktype(ordered_list)
-        self.assertEqual(result, BlockType.ORDERED_LIST)
+    2. Item II
+    3. Item III
+    4. Item IV"""
+        elements = ordered_list.split('\n')
+        trimmed = [el.strip() for el in elements]
+        blocks = [BlockType.block_to_blocktype(block) for block in trimmed]
+        self.assertEqual(4,len(blocks))
+        self.assertEqual(blocks[0], BlockType.ORDERED_LIST)
+        self.assertEqual(blocks[1], BlockType.ORDERED_LIST)
+        self.assertEqual(blocks[2], BlockType.ORDERED_LIST)
+        self.assertEqual(blocks[3], BlockType.ORDERED_LIST)
 
     def test_paragrapgh(self):
         paragraph = "This is just text with no special meaning or formatting."

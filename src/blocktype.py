@@ -13,8 +13,8 @@ class BlockType(Enum):
         heading_pattern = "^(#){1,6} [\w| ]+"
         code_pattern = "^```[\s\S]*```$"
         quote_pattern = "< [\s\S]*"
-        unordered_list_pattern = "^[-*+] [\s\S]*"
-        ordered_list_pattern="^[0-9]+\. [\s\S]*"
+        unordered_list_pattern = "^[-*+] [\w| ]*$"
+        ordered_list_pattern="^[0-9]+\. [\w| ]*$"
 
         if len(block) == 0:
             raise ValueError("Can't convert from empty text")
@@ -25,6 +25,7 @@ class BlockType(Enum):
         if re.fullmatch(quote_pattern, block):
             return BlockType.QUOTE
         if re.fullmatch(unordered_list_pattern,block):
+
             return BlockType.UNORDERED_LIST
         if re.fullmatch(ordered_list_pattern,block):
             return BlockType.ORDERED_LIST
