@@ -182,3 +182,5 @@ class TextNode:
         trimmed = [line.strip() for line in blocks]
         filtered_blocks = [line for line in trimmed if len(line) >0]
         return filtered_blocks
+
+1
