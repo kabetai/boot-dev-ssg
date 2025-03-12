@@ -5,7 +5,7 @@ class Markdown2HTML:
 
     def convertMarkdownToHtml(markdown):
         text2blocks = TextType.markdown_to_blocks(markdown)
-
+        print(f"{len(text2blocks)} blocks from markdown document")
 
     def heading_tag_for_heading_block(block):
         #count #
