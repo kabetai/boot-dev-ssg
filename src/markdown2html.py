@@ -11,5 +11,5 @@ class Markdown2HTML:
         #count #
         level = block.count("#")
         text = block[block.rfind("#"):]
-        tag = f"<h{level>"
+        tag = f"<h{level}>"
         return tag
