@@ -3,7 +3,7 @@ from blocktype import BlockType
 
 class Markdown2HTML:
 
-    def convertMarkdownToHtml(markdown):
+    def convert_markdown_to_html(markdown):
         text2blocks = TextType.markdown_to_blocks(markdown)
         print(f"{len(text2blocks)} blocks from markdown document")
 
