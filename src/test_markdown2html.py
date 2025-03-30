@@ -40,6 +40,28 @@ class TestMarkdown2Html(unittest.TestCase):
         * Item 3
         * Item 4
 
+### This is heading 3
+
+< Quote text line
+< Quote tex line 2
+< Quote text line 3
+
+- unordered with - item markers
+- more unordered items
+- and one more unordered item
+
+* unordered list with asterisk
+* second item on the list
+* third one
+* a fourth one
+* and one more
+
+1. now we have ordred list
+2. a second item
+3. third item 
+4. one more itme
+5. fifth item
+
 ```<div class="color=blue">
         <a href="https://acme.com">asme</a>
         </div>```
