@@ -10,9 +10,14 @@ class Markdown2HTML:
             block_type = BlockType.block_to_blocktype(block)
             print(f"block type {block_type}")
 
+
     def heading_tag_for_heading_block(block):
         #count #
         level = block.count("#")
         text = block[block.rfind("#"):]
-        tag = f"<h{level}>"
+        tag = f"<h{level}>{text}</h{level}>"
         return tag
+
+    def code_block_to_code_tag(block):
+        code_md = "```"
+
