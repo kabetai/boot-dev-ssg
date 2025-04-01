@@ -14,7 +14,7 @@ class Markdown2HTML:
     def heading_tag_for_heading_block(block):
         #count #
         level = block.count("#")
-        text = block[block.rfind("#"):]
+        text = block[block.rfind("#")+1:]
         tag = f"<h{level}>{text}</h{level}>"
         return tag
 
