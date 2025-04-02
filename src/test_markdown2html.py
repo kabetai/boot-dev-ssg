@@ -34,6 +34,17 @@ class TestMarkdown2Html(unittest.TestCase):
         result = Markdown2HTML.heading_tag_for_heading_block(h6)
         self.assertEqual(result,"<h6> This is heading h6</h6>")
 
+    def test_code_block(self):
+        markdown="""```<div class="color=blue">
+        <a href="https://acme.com">asme</a>
+        </div>```"""
+        result = Markdown2HTML.code_block_to_code_tag(markdown)
+        expected = """<code><div class="color=blue">
+        <a href="https://acme.com">asme</a>
+        </div></code>"""
+        self.assertEqual(result,expected)
+
+
     def test_convert(self):
         markdown = """* Item 1
         * Item 2
