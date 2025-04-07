@@ -3,6 +3,12 @@ from blocktype import BlockType
 
 class Markdown2HTML:
 
+    #i am doing all of this wrong O_O
+    # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+        
+
     def convert_markdown_to_html(markdown):
         text2blocks = TextNode.markdown_to_blocks(markdown)
         print(f"{len(text2blocks)} blocks from markdown document")
@@ -20,4 +26,9 @@ class Markdown2HTML:
 
     def code_block_to_code_tag(block):
         code_md = "```"
+        text = block[block.rfind("```")+1:-3]
+        tag = f"<code>{text}</code>"
+        return tag
+
+
 
